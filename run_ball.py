@@ -39,6 +39,10 @@ class BouncingSimulator:
         self.my_paddle = paddle.Paddle(150, 50, (255, 0, 0), tom)
         self.my_paddle.set_location([100, -100])
 
+        ap = turtle.Turtle()
+        self.my_Vpaddle = paddle.Paddle(30, 150, (0, 255, 0), ap)
+        self.my_Vpaddle.set_location([-100, 0])
+
         self.screen = turtle.Screen()
 
     # updates priority queue with all new events for a_ball
@@ -73,8 +77,10 @@ class BouncingSimulator:
     def __redraw(self):
         turtle.clear()
         self.my_paddle.clear()
+        self.my_Vpaddle.clear()
         self.__draw_border()
         self.my_paddle.draw()
+        self.my_Vpaddle.draw()
         for i in range(len(self.ball_list)):
             self.ball_list[i].draw()
         turtle.update()
@@ -102,7 +108,13 @@ class BouncingSimulator:
 
     def move_right(self):
         self.my_paddle.set_location([self.my_paddle.location[0] + 40, self.my_paddle.location[1]])
-    
+
+    def move_up(self):
+        self.my_Vpaddle.set_location([self.my_Vpaddle.location[0], self.my_Vpaddle.location[1] + 40])
+
+    def move_down(self):
+        self.my_Vpaddle.set_location([self.my_Vpaddle.location[0], self.my_Vpaddle.location[1] - 40])
+
     # end: event handlers
 
     def run(self):
@@ -119,6 +131,8 @@ class BouncingSimulator:
         self.screen.onkey(self.right, "Right")
         self.screen.onkey(self.move_left, "a")
         self.screen.onkey(self.move_right, "d")
+        self.screen.onkey(self.move_up, "w")
+        self.screen.onkey(self.move_down, "x")
         # end: listening to keyboard events
 
         while (True):
